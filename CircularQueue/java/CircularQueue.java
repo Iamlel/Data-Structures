@@ -9,12 +9,12 @@ import java.util.function.Predicate;
  *
  * @param <E> the type of elements stored in the queue.
  *
- * @author  lel
+ * @author lel
  * @see     Collection
  * @see     Queue
  */
 public class CircularQueue<E> extends AbstractQueue<E> {
-    private static final int DEFAULT_CAPACITY = 10;
+    protected static final int DEFAULT_CAPACITY = 10;
 
     private final Object[] elements;
 
@@ -111,50 +111,44 @@ public class CircularQueue<E> extends AbstractQueue<E> {
      */
     @Override
     public Iterator<E> iterator() {
-        return new Itr();
-    }
+        return new Iterator<E>() {
+            int ptr = 0;
 
-    private final class Itr implements Iterator<E> {
-        int ptr;
-
-        private Itr() {
-            this.ptr = 0;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return (ptr < size());
-        }
-
-        @Override
-        public E next() {
-            if (hasNext()) {
-                E e = peek(ptr);
-                ptr++;
-                return e;
+            @Override
+            public boolean hasNext() {
+                return (ptr < size());
             }
-            throw new NoSuchElementException();
-        }
 
-        /**
-         * Returns the number of iterations that have happened.
-         *
-         * @return number of iterations that have happened.
-         */
-        public int iterations() {
-            return ptr;
-        }
+            @Override
+            public E next() {
+                if (hasNext()) {
+                    E e = peek(ptr);
+                    ptr++;
+                    return e;
+                }
+                throw new NoSuchElementException();
+            }
 
-        @Override
-        @Deprecated
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
+            /**
+             * Returns the number of iterations that have happened.
+             *
+             * @return number of iterations that have happened.
+             */
+            public int iterations() {
+                return ptr;
+            }
 
-        @Override
-        public void forEachRemaining(Consumer<? super E> action) {
-            Iterator.super.forEachRemaining(action);
-        }
+            @Override
+            @Deprecated
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void forEachRemaining(Consumer<? super E> action) {
+                Iterator.super.forEachRemaining(action);
+            }
+        };
     }
 
     /**
@@ -346,6 +340,7 @@ public class CircularQueue<E> extends AbstractQueue<E> {
      *                                       this time due to insertion restrictions
      * @see #add(Object)
      */
+    @Alias(method = "addAll")
     public boolean queueAll(Collection<? extends E> c) {
         return addAll(c);
     }
@@ -422,6 +417,7 @@ public class CircularQueue<E> extends AbstractQueue<E> {
      * @return {@code true} if the element was added to this queue, else
      * {@code false}
      */
+    @Alias(method = "offer")
     public boolean queue(E e) {
         return this.offer(e);
     }
@@ -456,6 +452,7 @@ public class CircularQueue<E> extends AbstractQueue<E> {
      *
      * @return the head of this queue, or {@code null} if this queue is empty
      */
+    @Alias(method = "poll")
     public E dequeue() {
         return this.poll();
     }
@@ -525,4 +522,3 @@ public class CircularQueue<E> extends AbstractQueue<E> {
         return new CircularQueue<E>(elements);
     }
 }
-

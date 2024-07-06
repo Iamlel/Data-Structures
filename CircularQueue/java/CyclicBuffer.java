@@ -13,4 +13,30 @@ import java.util.Queue;
  * @see     Queue
  * @see     CircularQueue
  */
-public class CyclicBuffer<E> extends CircularQueue<E> {}
+@Alias(CircularQueue.class)
+public class CyclicBuffer<E> extends CircularQueue<E> {
+    /**
+     * Create a circular queue with the default capacity.
+     */
+    public CyclicBuffer() {
+        super(DEFAULT_CAPACITY);
+    }
+
+    /**
+     * Create a circular queue with the specified capacity
+     *
+     * @param capacity capacity
+     */
+    public CyclicBuffer(int capacity) {
+        super(capacity);
+    }
+
+    /**
+     * Create a circular queue from an array
+     *
+     * @param elements array to use
+     */
+    public CyclicBuffer(Object[] elements) {
+        super(elements);
+    }
+}
