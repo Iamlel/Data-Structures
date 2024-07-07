@@ -47,7 +47,7 @@ public class CircularQueue<E> extends AbstractQueue<E> {
      * @param elements array to use
      */
     public CircularQueue(Object[] elements) {
-        this.elements = elements;
+        this.elements = Arrays.copyOf(elements, elements.length);
         this.head = 0;
         this.tail = 0;
         this.full = true;
