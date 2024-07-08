@@ -143,15 +143,6 @@ public class CircularQueue<E> extends AbstractQueue<E> {
                 throw new NoSuchElementException();
             }
 
-            /**
-             * Returns the number of iterations that have happened.
-             *
-             * @return number of iterations that have happened.
-             */
-            public int iterations() {
-                return ptr;
-            }
-
             @Override
             @Deprecated
             public void remove() {
