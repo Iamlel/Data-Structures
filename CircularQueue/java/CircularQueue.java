@@ -9,7 +9,7 @@ import java.util.function.Predicate;
  *
  * @param <E> the type of elements stored in the queue.
  *
- * @author lel
+ * @author  lel
  * @see     Collection
  * @see     Queue
  */
@@ -60,7 +60,12 @@ public class CircularQueue<E> extends AbstractQueue<E> {
      */
     @Override
     public int size() {
-        return (full) ? this.capacity() : head - tail + 1;
+        if (full) {
+            return this.capacity();
+        }
+
+        final int size = head - tail + 1;
+        return (size < 0) ? this.capacity() - size : size;
     }
 
     /**
@@ -79,7 +84,16 @@ public class CircularQueue<E> extends AbstractQueue<E> {
      */
     @Override
     public boolean isEmpty() {
-        return (!full && head - tail + 1 == elements.length);
+        return (!full && head - tail == 0);
+    }
+
+    /**
+     * Returns {@code true} if this collection is full.
+     *
+     * @return {@code true} if this collection is full
+     */
+    public boolean isFull() {
+        return full;
     }
 
     /**
